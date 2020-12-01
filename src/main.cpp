@@ -1,22 +1,43 @@
+#include "stdint.h"
 #include <Arduino.h>
-#include <Servo.h>
+#include <Ultrasonic.h>
 
-Servo myServo;
+const uint8_t PIN_TRIG = 9;
+const uint8_t PIN_ECHO = 10;
+const uint8_t PIN_LED = 13;
+
+Ultrasonic ultrasonic;
 
 void setup() {
-    myServo.attach(13);
+    Serial.begin(9600);
+
+    ultrasonic.initPins(PIN_TRIG, PIN_ECHO);
 }
 
 void loop() {
-    myServo.write(0);
     delay(3000);
+    digitalWrite(PIN_LED, LOW);
+    delay(1000);
+    digitalWrite(PIN_LED, HIGH);
+    delay(1000);
 
-    myServo.write(90);
-    delay(3000);
+    digitalWrite(PIN_TRIG, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(PIN_TRIG, LOW);
 
-    myServo.write(180);
-    delay(3000);
+    long duration, distance;
+    duration = pulseIn(PIN_ECHO, HIGH);
+    distance = (duration/2) / 29.1;
 
-    myServo.write(90);
-    delay(3000);
+    Serial.print("duration: ");
+    Serial.print(duration);
+    Serial.print(" distance: ");
+    Serial.println(distance);
+
+
+
+    Serial.print("Distance: ");
+    Serial.println(ultrasonic.getDistance());
+
+
 }

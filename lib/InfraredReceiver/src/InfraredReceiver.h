@@ -1,5 +1,5 @@
 /*
-    Ultrasonic Ranging Module HC - SR04
+    TL1838 Infrared Receiver Datasheet
 
     The Timing diagram is shown below. You only need to supply a short 10uS
     pulse to the trigger input to start the ranging, and then the module will send out
@@ -11,20 +11,44 @@
     measurement cycle, in order to prevent trigger signal to the echo signal.
 */
 
-#ifndef ULTRASONIC_H
-#define ULTRASONIC_H
+#ifndef  INFRAREDRECEIVER_H
+#define  INFRAREDRECEIVER_H
 
 #include "stdint.h"
 
-class Ultrasonic
+enum class Btn
+{
+    UNUSED = 0,
+
+    KEY_1,
+    KEY_2,
+    KEY_3,
+    KEY_4,
+    KEY_5,
+    KEY_6,
+    KEY_7,
+    KEY_8,
+    KEY_9,
+    KEY_0,
+
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    OK,
+
+    ASTERISK,
+    HASH,
+};
+
+class  InfraredReceiver
 {
     private:
-        uint8_t pinTrig;
-        uint8_t pinEcho;
+        Btn btn;
 
     public:
-        void initPins(uint8_t trig, uint8_t echo);
-        float getDistance();
+        void decodeBtn(int32_t code);
+        Btn getBtn();
 };
 
 #endif

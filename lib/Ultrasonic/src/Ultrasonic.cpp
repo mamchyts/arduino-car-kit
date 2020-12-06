@@ -1,3 +1,4 @@
+#include "stdint.h"
 #include <Arduino.h>
 #include "Ultrasonic.h"
 

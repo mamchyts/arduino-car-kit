@@ -10,11 +10,12 @@
     range = high level time * velocity (340M/S) / 2; we suggest to use over 60ms
     measurement cycle, in order to prevent trigger signal to the echo signal.
 */
+#ifndef  INFRARED_RECEIVER_BTN_H
+#define  INFRARED_RECEIVER_BTN_H
 
-#ifndef  INFRAREDRECEIVER_H
-#define  INFRAREDRECEIVER_H
 
 #include "stdint.h"
+
 
 enum class Btn
 {
@@ -41,13 +42,17 @@ enum class Btn
     HASH,
 };
 
-class  InfraredReceiver
+
+class  InfraredReceiverBtn
 {
     private:
-        Btn btn;
+        Btn btn {Btn::UNUSED};
+        uint32_t lastUpdate;
+        const uint16_t duration {200};
 
     public:
-        void decodeBtn(int32_t code);
+        void decodeBtn(int32_t code, bool isRepeat);
+        void resetBtn();
         Btn getBtn();
 };
 

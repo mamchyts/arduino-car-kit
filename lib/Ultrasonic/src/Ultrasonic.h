@@ -10,11 +10,12 @@
     range = high level time * velocity (340M/S) / 2; we suggest to use over 60ms
     measurement cycle, in order to prevent trigger signal to the echo signal.
 */
-
 #ifndef ULTRASONIC_H
 #define ULTRASONIC_H
 
+
 #include "stdint.h"
+
 
 class Ultrasonic
 {

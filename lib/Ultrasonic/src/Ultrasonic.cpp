@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "Ultrasonic.h"
 
+
 void Ultrasonic::initPins(uint8_t trig, uint8_t echo)
 {
     pinTrig = trig;
@@ -12,6 +13,7 @@ void Ultrasonic::initPins(uint8_t trig, uint8_t echo)
     pinMode(pinEcho, INPUT);
 }
 
+
 float Ultrasonic::getDistance()
 {
     // send signal
@@ -19,5 +21,6 @@ float Ultrasonic::getDistance()
     delayMicroseconds(10);
     digitalWrite(pinTrig, LOW);
 
+    // calculate distance in centimeters
     return pulseIn(pinEcho, HIGH) / 58.2;
 }

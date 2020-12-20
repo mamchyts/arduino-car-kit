@@ -1,12 +1,18 @@
 #include "stdint.h"
 #include <Arduino.h>
-#include <IRremote.h>
-#include "InfraredReceiver.h"
+#include "InfraredReceiverBtn.h"
 
-void InfraredReceiver::decodeBtn(int32_t code)
+
+void InfraredReceiverBtn::decodeBtn(int32_t code, bool isRepeat)
 {
-    switch (code)
-    {
+    // update last btn set
+    lastUpdate = millis();
+
+    if (isRepeat == true) {
+        return;
+    }
+
+    switch (code) {
         case 0xFF629D:
             btn = Btn::UP;
             break;
@@ -27,6 +33,9 @@ void InfraredReceiver::decodeBtn(int32_t code)
             break;
         case 0xFF9867:
             btn = Btn::KEY_2;
+            break;
+        case 0xFFB04F:
+            btn = Btn::KEY_3;
             break;
         case 0xFF30CF:
             btn = Btn::KEY_4;
@@ -56,10 +65,6 @@ void InfraredReceiver::decodeBtn(int32_t code)
             btn = Btn::HASH;
             break;
 
-        // special case
-        case REPEAT:
-            break;
-
         default:
             Serial.print("Unknown code: ");
             Serial.println(code, HEX);
@@ -67,7 +72,18 @@ void InfraredReceiver::decodeBtn(int32_t code)
     }
 }
 
-Btn InfraredReceiver::getBtn()
+
+void InfraredReceiverBtn::resetBtn()
 {
+    btn = Btn::UNUSED;
+}
+
+
+Btn InfraredReceiverBtn::getBtn()
+{
+    if ((millis() - lastUpdate) > duration) {
+        resetBtn();
+    }
+
     return btn;
 }

@@ -14,6 +14,7 @@ void InfraredReceiverBtn::decodeBtn(int32_t code, bool isRepeat)
 
     switch (code) {
         case 0xFF629D:
+        case 0x4CB0FADF:
             btn = Btn::UP;
             break;
         case 0xFF22DD:
